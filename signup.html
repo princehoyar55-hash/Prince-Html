@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Prince AI Toolkit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <div class="auth-container glass-card">
+            <h2>Create Workspace at <span class="neon-text">Prince AI</span></h2>
+            <p style="color: var(--text-muted); margin-top: 5px;">Deploy your developer credentials</p>
+            
+            <div id="error-box" class="error-message"></div>
+
+            <form id="signup-form" class="auth-form">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" placeholder="name@domain.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Password (Min 6 Characters)</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-secondary" style="margin-top: 10px;">Register Account</button>
+            </form>
+
+            <p class="auth-redirect">Already have an ID? <a href="index.html">Sign In Here</a></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, checkAuthGuard } from "./firebase.js";
+        import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        checkAuthGuard(true);
+
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errBox = document.getElementById('error-box');
+            
+            errBox.style.display = 'none';
+
+            if(password.length < 6) {
+                errBox.style.display = 'block';
+                errBox.innerText = "Security Validation: Password requires at least 6 characters.";
+                return;
+            }
+
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                window.location.href = "dashboard.html";
+            } catch (error) {
+                errBox.style.display = 'block';
+                errBox.innerText = error.message;
+            }
+        });
+    </script>
+</body>
+</html>
