@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace Dashboard - Prince AI Toolkit</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar glass-card">
+            <div class="sidebar-top">
+                <div class="sidebar-logo">
+                    <h2>Prince <span class="neon-text">AI Toolkit</span></h2>
+                </div>
+                <ul class="nav-links">
+                    <li class="nav-item active"><a href="dashboard.html">🚀 Code Studio</a></li>
+                    <li class="nav-item"><a href="admin.html">🛡️ API Admin Control</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn-danger" style="width: 100%;">Terminated Session</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>AI Processing Engine</h1>
+                    <p style="color: var(--text-muted);">Generate production-ready web architectural units on the fly.</p>
+                </div>
+                <div id="user-badge" style="font-weight: 600; color: var(--primary-neon);">...</div>
+            </header>
+
+            <div class="workspace-grid">
+                <section class="control-panel glass-card style" style="padding: 24px; position: relative;">
+                    <div class="loader-overlay" id="loader">
+                        <div class="spinner"></div>
+                        <p style="font-weight: 600; color: var(--primary-neon);">Compiling System Framework Assets...</p>
+                    </div>
+
+                    <h3>Design Matrix Request Prompt</h3>
+                    
+                    <div class="prompt-area-container">
+                        <textarea id="prompt-input" class="prompt-textarea" placeholder="E.g., Design a beautifully styled glassmorphic sign up module using custom properties..."></textarea>
+                        <button id="mic-btn" class="mic-btn" title="Trigger Audio Dictation Input Engine">🎤</button>
+                    </div>
+
+                    <button id="generate-btn" class="btn-primary" style="width: 100%;">Initialize Generation Stream</button>
+
+                    <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 10px 0;">
+
+                    <h3>Workspace Historical Snapshots</h3>
+                    <div id="history-container" class="history-pane">
+                        <p style="color: var(--text-muted); font-size:14px; text-align:center;">No history artifacts compiled.</p>
+                    </div>
+                </section>
+
+                <section class="output-window glass-card">
+                    <div class="output-header">
+                        <h3>Generated Compilation Array</h3>
+                        <div style="display: flex; gap: 10px;">
+                            <button id="copy-btn" class="btn-secondary" style="padding: 8px 14px; font-size: 13px;">📋 Copy</button>
+                            <button id="zip-btn" class="btn-primary" style="padding: 8px 14px; font-size: 13px;">📦 Export Asset Bundle (.ZIP)</button>
+                        </div>
+                    </div>
+                    <pre id="code-output" class="code-display">// Your compiled HTML/CSS/JS architecture package elements will resolve inside this code ecosystem window...</pre>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
