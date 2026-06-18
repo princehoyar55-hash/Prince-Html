@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Prince AI Toolkit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <div class="auth-container glass-card">
+            <h2>Welcome Back to <span class="neon-text">Prince AI</span></h2>
+            <p style="color: var(--text-muted); margin-top: 5px;">Sign in to access your dashboard workspace</p>
+            
+            <div id="error-box" class="error-message"></div>
+
+            <form id="login-form" class="auth-form">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" placeholder="name@domain.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Secure Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 10px;">Authenticate Session</button>
+            </form>
+
+            <p class="auth-redirect">New to the engine? <a href="signup.html">Create Workspace Identity</a></p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, checkAuthGuard } from "./firebase.js";
+        import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        checkAuthGuard(true); // Redirect to dashboard if logged in
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errBox = document.getElementById('error-box');
+            
+            errBox.style.display = 'none';
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = "dashboard.html";
+            } catch (error) {
+                errBox.style.display = 'block';
+                if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                    errBox.innerText = "Authentication Failed: Invalid Email or Password.";
+                } else if (error.code === 'auth/wrong-password') {
+                    errBox.innerText = "Authentication Failed: Incorrect security credentials.";
+                } else {
+                    errBox.innerText = `Error: ${error.message}`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
