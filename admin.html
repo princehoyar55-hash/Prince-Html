@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin API Provisioner - Prince AI Toolkit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="admin-gatekeeper" class="auth-wrapper" style="position:fixed; z-index: 1000; background: var(--bg-gradient); width:100vw; height:100vh; top:0; left:0;">
+        <div class="auth-container glass-card">
+            <h2>Cryptographic Identity Clearance Required</h2>
+            <p style="color: var(--text-muted); margin-top:5px;">Input root admin security tokens</p>
+            <div class="auth-form">
+                <div class="input-group">
+                    <input type="password" id="admin-token" placeholder="••••••••">
+                </div>
+                <button id="unlock-btn" class="btn-primary">Verify Tokens</button>
+                <button onclick="window.location.href='dashboard.html'" class="btn-secondary" style="background:transparent; border: 1px solid var(--glass-border);">Aborted Entry Path</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar glass-card">
+            <div class="sidebar-top">
+                <div class="sidebar-logo">
+                    <h2>Admin <span class="neon-text">Console Suite</span></h2>
+                </div>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="dashboard.html">🚀 Code Studio</a></li>
+                    <li class="nav-item active"><a href="admin.html">🛡️ API Admin Control</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>System Provider Architecture Configuration Engine</h1>
+                <p style="color: var(--text-muted);">Dynamically balance payload routing layers, alternate fallback switches, and modify infrastructure configurations instantly.</p>
+            </header>
+
+            <section class="glass-card" style="padding: 30px; display: flex; flex-direction: column; gap: 24px;">
+                <h3>Active Provider Integration Parameter Settings</h3>
+                
+                <form id="admin-config-form" style="display:flex; flex-direction:column; gap:20px;">
+                    <div class="input-group">
+                        <label>Operational API Provider Router Pathway Target Selection</label>
+                        <select id="active-provider">
+                            <option value="openai">OpenAI Production Cloud Core (Primary Matrix)</option>
+                            <option value="groq">Groq Framework Super-Cluster Array (High Performance Dynamic Mode)</option>
+                            <option value="custom">Decentralized Endpoint Loop Router Gateway Configuration</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>OpenAI Bearer Key Allocation Target</label>
+                        <input type="password" id="key-openai" placeholder="sk-proj-........................">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Groq Lightning Acceleration Pipeline Access Key</label>
+                        <input type="password" id="key-groq" placeholder="gsk_........................">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Custom Loopback Intercept Route Base URI</label>
+                        <input type="text" id="custom-endpoint" placeholder="https://api.yourcustomproxy.domain/v1">
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="margin-top: 10px; width: max-content;">Commit Parameters To Cloud Ecosystem Database</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script type="module">
+        import { db, checkAuthGuard } from "./firebase.js";
+        import { ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        
+        checkAuthGuard(false);
+
+        // Core Vault Key Clearance Gate Protocol Verification Engine Check
+        document.getElementById('unlock-btn').addEventListener('click', () => {
+            const token = document.getElementById('admin-token').value;
+            if(token === "Prince@086") {
+                document.getElementById('admin-gatekeeper').style.opacity = '0';
+                setTimeout(() => document.getElementById('admin-gatekeeper').style.display = 'none', 300);
+            } else {
+                alert("Security Threat Alert: Cryptographic Token Match Failed. Request Blocked.");
+            }
+        });
+
+        // Track Framework Config Instantiation Engine Loops
+        const form = document.getElementById('admin-config-form');
+        const dbTargetRef = ref(db, "api_settings");
+
+        onValue(dbTargetRef, (snapshot) => {
+            const data = snapshot.val();
+            if(data) {
+                document.getElementById('active-provider').value = data.active_provider || 'openai';
+                document.getElementById('key-openai').value = data.key_openai || '';
+                document.getElementById('key-groq').value = data.key_groq || '';
+                document.getElementById('custom-endpoint').value = data.custom_endpoint || '';
+            }
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            set(dbTargetRef, {
+                active_provider: document.getElementById('active-provider').value,
+                key_openai: document.getElementById('key-openai').value,
+                key_groq: document.getElementById('key-groq').value,
+                custom_endpoint: document.getElementById('custom-endpoint').value,
+                last_updated: Date.now()
+            }).then(() => {
+                alert("Database Engine Synchronization Operation Success: Cloud Variables Operational.");
+            }).catch(err => alert(`Operation Interrupted Error Context: ${err.message}`));
+        });
+    </script>
+</body>
+</html>
